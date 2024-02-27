@@ -30,9 +30,10 @@
 
 .features {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   text-align: center;
-  padding: 2em 0;
+  padding: 10px 30px;
+  gap: 35px;
 }
 
 .feature {
@@ -48,4 +49,17 @@
   border-radius: 32px;
   font-size: 16px;
   margin-top: 6px;
+}
+
+.feature>h2 {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+}
+
+.feature>p {
+  color: #676767;
+  font-weight: 500;
+  font-size: 16px;
+  margin-top: -6px;
+
 }

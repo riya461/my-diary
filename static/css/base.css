@@ -19,9 +19,8 @@ body {
   font-size: 16px;
   padding: 8px 22px;
   border-radius: 25px;
-  background-color: black;
-  color: white;
-  border: none;
+  background-color: transparent;
+  border: 1px solid black;
   cursor: pointer;
 }
 
