@@ -8,13 +8,13 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 
-url = os.getenv("SUPABASE_URL")
-key = os.getenv("SUPABASE_KEY")
-print(url)
-print(key)
+# url = os.getenv("SUPABASE_URL")
+# key = os.getenv("SUPABASE_KEY")
+# print(url)
+# print(key)
 
-if not url or not key:
-    raise ValueError("Supabase credentials not found in .env file")
+# if not url or not key:
+#     raise ValueError("Supabase credentials not found in .env file")
 
 # supabase = create_client(url, key)
 
