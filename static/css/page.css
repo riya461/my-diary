@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Freehand&family=Inter:wght@100..900&display=swap');
+
+.diary-main {
+  background-color: #ddd;
+  display: flex;
+  justify-content: center;
+}
+
+.page {
+  font-family: "Inter", sans-serif;
+  color: #3b3b3b;
+
+  width: 800px;
+  min-height: 1132px;
+  background-color: white;
+  margin: 75px auto;
+  padding: 35px 55px;
+  border-radius: 20px;
+  box-shadow: 10px 8px 0 2px #f3f3f3, 18px 10px 0 2px #e6e6e6;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.punchholes {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 0 -35px 40px -35px;
+}
+
+.punchholes>div {
+  width: 20px;
+  height: 20px;
+  background-color: #d5d5d5;
+  box-shadow: inset 3px 2px 0 2px #f3f3f3, inset 2px 1px 0 2px #e6e6e6;
+  border-radius: 50%;
+  border: none;
+}
+
+.date {
+  font-size: 20px;
+  margin-right: 20px;
+  padding-top: 25px;
+  padding-bottom: 15px;
+  border-bottom: dashed #aaa;
+}
+
+.page>h1 {
+  font-size: 38px;
+}
+
+textarea {
+  padding: 0;
+  margin: 0;
+  resize: none;
+  outline: none;
+  border: none;
+
+  font-size: 22px;
+  font-family: "Inter", sans-serif;
+}
