@@ -39,7 +39,7 @@ def signup():
             
         try:
             user = supabase.auth.sign_in_with_password({"email": email,"password": password})
-            return redirect(url_for('diary'))
+            return redirect(url_for('about'))
 
         except Exception as e:
             return render_template('error.html', message=str(e))
@@ -88,7 +88,7 @@ def about():
         hobby_field = request.form['hobby']
         person_field = request.form['person']
         supabase.table('users_diary').insert([{'name': name,'id': user, 'age': age, 'sex': sex, 'calm_field' : calm_field, 'hobby_field' : hobby_field, 'person_field' : person_field}]).execute()
-        return redirect(url_for('index'))
+        return redirect(url_for('diary'))
     return render_template('about.html', user= "user")
 
 
