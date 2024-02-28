@@ -6,12 +6,17 @@
     <title>Document</title>
 </head>
 <body>
-    {{user}}
-    {{today}}
+    <h1>User</h1>{{user}}
+    <h1>Date</h1>{{today}}
     {% if today : %}
-    {{val}}
-    {{val_past}}
-    {{mood_tracker}}
+    <h1>Todays input</h1>{{val}}
+    <h1>Past few inputs</h1>{{val_past}}
+    <h2>Mood tracker</h2>{{mood_tracker}}
+    {% for i in val_past %}
+    <li>{{i}}</li>
+    {% endfor %}
+
+
     <!--if block html code-->
     <!-- written the entry -->
     {% else %}
