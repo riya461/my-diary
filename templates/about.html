@@ -1,22 +1,139 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h2>{{ user}} </h2>
-    <h1>Fill in the form below</h1>
+  </head>
+  <body>
+    <h2>{{ user}}</h2>
+    <h1>Let us know you better :)</h1>
 
     <form action="/about" method="post">
-        <input type="text" name="name" id="name" placeholder="Name">
-        <input type="text" name="age" id="age" placeholder="Age">
-        <input type="text" name="sex" id="sex" placeholder="Sex">
-        <input type="text" name="calm" id="calm" placeholder="What makes you calm?">
-        <input type="text" name="hobby" id="hobby" placeholder="What are your hobbies?">
-        <input type="text" name="person" id="person" placeholder="Who or what makes you the most comfortable on earth?">
+      <input type="text" name="name" id="name" placeholder="Name" />
+      <input type="text" name="age" id="age" placeholder="Age" />
+      <input type="text" name="sex" id="sex" placeholder="Sex" />
+      <input
+        type="text"
+        name="calm"
+        id="calm"
+        placeholder="What makes you calm?"
+      />
+      <input
+        type="text"
+        name="hobby"
+        id="hobby"
+        placeholder="What are your hobbies?"
+      />
+      <input
+        type="text"
+        name="person"
+        id="person"
+        placeholder="Who or what makes you the most comfortable on earth?"
+        />
         <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+      </form>
+    </body>
+    </html> -->
+
+{% extends "base.html" %} {% block content %}
+<div class="about-page">
+  <h1>Let us know you better :)</h1>
+  <div class="about-outer">
+    <img src="../static/images/about.png" alt="about-page" />
+    <section class="about-form">
+      <form id="container" action="/signup" method="post">
+        <div class="about-card">
+          <h2>About Me</h2>
+          <input
+            class="input0"
+            type="text"
+            name="name"
+            id="name"
+            placeholder="Name"
+            required
+          />
+          <input
+            class="input0"
+            type="number"
+            name="age"
+            id="age"
+            placeholder="Age"
+            required
+          />
+          <input
+            class="input0"
+            type="text"
+            name="sex"
+            id="sex"
+            placeholder="Sex"
+            required
+          />
+          <button class="about-form-btn form-next">Next</button>
+        </div>
+        <div class="about-card">
+          <h2>What makes you calm?</h2>
+          <textarea
+            name="calm"
+            id="calm"
+            placeholder="What makes you calm?"
+          ></textarea>
+          <button class="about-form-btn form-next">Next</button>
+        </div>
+        <div class="about-card">
+          <h2>What are your hobbies?</h2>
+          <textarea
+            name="hobby"
+            id="hobby"
+            placeholder="What are your hobbies?"
+          ></textarea>
+          <button class="about-form-btn form-next">Next</button>
+        </div>
+        <div class="about-card">
+          <h2>What makes ya happy?</h2>
+          <textarea
+            name="person"
+            id="person"
+            placeholder="Who or what makes you the most comfortable on earth?"
+          ></textarea>
+          <button class="about-form-btn submit-btn">Submit</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+
+<script>
+  let currentCard = 0;
+  const cards = document.getElementsByClassName("about-card");
+  const container = document.getElementById("container");
+  const totalCards = cards.length;
+
+  const arr = [...document.getElementsByClassName("form-next")];
+  arr.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const inputs = [
+        ...container.getElementsByClassName(`input${currentCard}`),
+      ];
+      const valid = true;
+      inputs.forEach((elem) => {
+        if (!elem.checkValidity()) valid = false;
+      });
+
+      if (!valid) return;
+
+      e.preventDefault();
+
+      if (currentCard < totalCards - 1) {
+        currentCard++;
+        container.style.transform = `translateX(-${currentCard * 100}%)`;
+      }
+    });
+  });
+
+  const autogrow = (elem) => {
+    elem.style.height = elem.scrollHeight + "px";
+  };
+</script>
+
+{% endblock %}
