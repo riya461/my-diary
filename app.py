@@ -39,7 +39,7 @@ def signup():
             
         try:
             user = supabase.auth.sign_in_with_password({"email": email,"password": password})
-            return redirect(url_for('about'))
+            return redirect(url_for('diary'))
 
         except Exception as e:
             return render_template('error.html', message=str(e))
