@@ -128,7 +128,9 @@ def diary():
     user = str(json.loads(user_n)["user"]["id"])
     data = supabase.table('users_diary').select('name').match({'id': user}).execute()
     name = data.data[0]['name']
-    today = date.today()
+    today = date.today().ctime()
+    t = today.split()
+    today = t[0] + " " + t[1] + " " + t[2] + " " + t[4]
     if request.method == 'POST':
         user = supabase.auth.get_user()
         user_n = user.json()
