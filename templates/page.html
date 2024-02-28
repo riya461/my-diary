@@ -20,9 +20,14 @@
           <div></div>
         </div>
 
-        <div class="date">24th March 2024</div>
+        <div class="date">{{ today }}</div>
         <h1>Feeling good!</h1>
-        <textarea oninput="autogrow(this)" ></textarea>
+        <form class="page-form" action="/diary" method="post">
+          <textarea oninput="autogrow(this)" ></textarea>
+          <button class="page-form-btn" type="submit">
+            <img src="../static/images/go.svg" alt="submt" />
+          </button>
+      </form>
       </div>
     </div>
   </body>

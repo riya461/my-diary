@@ -34,3 +34,8 @@ body {
   font-family: "Playfair Display", serif;
   font-weight: 700;
 }
+
+a {
+  color: black;
+  text-decoration: none;
+}

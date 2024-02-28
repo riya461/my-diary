@@ -40,15 +40,18 @@
   max-width: 200px;
 }
 
-.hero button {
+.hero>button {
   background-color: #000;
-  color: #fff;
   border: none;
   padding: 16px 32px;
   cursor: pointer;
   border-radius: 32px;
   font-size: 16px;
   margin-top: 6px;
+}
+
+.hero a {
+  color: white;
 }
 
 .feature>h2 {

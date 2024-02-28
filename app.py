@@ -142,5 +142,12 @@ def diary():
 @app.route('/analyse')
 def analyse():
     return render_template('analyse.html')  
+
+@app.route('/page')
+def page():
+    today = date.today()
+
+    return render_template('page.html',today = today)
+
 if __name__ == '__main__':
     app.run(debug=True)
