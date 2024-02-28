@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,4 +19,48 @@
     <button><a href="/index">Home</a></button>
     {% endif %}
 </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/page.css" />
+    <title>ZenPad</title>
+  </head>
+  <body class="diary-main">
+      <div class="page">
+        <div class="punchholes">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <div class="date">{{ today }}</div>
+        <!-- <h1>Feeling good!</h1> -->
+        <form class="page-form" action="/diary" method="post">
+          <textarea name = "entry" oninput="autogrow(this)" placeholder="How are you feeling today??"></textarea>
+          <button class="page-form-btn" type="submit">
+            <img src="../static/images/go.svg" alt="submt" />
+          </button>
+      </form>
+      </div>
+    </div>
+    {% if prompt == True %}
+    <h1>{{suggestion}}</h1>
+    <button><a href="/index">Exit</a></button>
+    {% endif %}
+  </body>
+
+  <script>
+    const autogrow = (elem) => {
+      elem.style.height = elem.scrollHeight + "px";
+    }
+  </script>
 </html>
