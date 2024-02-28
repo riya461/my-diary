@@ -35,6 +35,12 @@
     <div id="popup">
         <p>
             <h3>{{ heading }}</h3>
+
+            <div class="trigger">
+                {{ trigger_section }}
+            </div>
+
+            
             <ol>
             {% for i in suggestion %}
             <br>
@@ -42,6 +48,8 @@
             <br>
             {% endfor %}
             </ol>
+
+           
 
 
             <button class="login-btn"><a href="/index">Go to Home</a></button>
