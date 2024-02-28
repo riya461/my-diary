@@ -124,8 +124,8 @@ def index():
         # past 7 days journal entries
         
 
-        val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).order('id',desc=True).execute()
-        if val_past[0].date_entry == date_val :
+        val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).order('id').execute()
+        if False == date_val :
             today = True
         else :
             today = False
