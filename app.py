@@ -23,9 +23,14 @@ def index():
 
  
     response = supabase.table('users_diary').select("*").match({'name': 'Riya'}).execute()
-    name = response.data[0]['name']
-    age = response.data[0]['age']
-    return render_template('home.html', name = name, age= age)
+    if response.data:
+        name = response.data[0]['name']
+        age = response.data[0]['age']
+    return render_template('home.html')
+
+@app.route('/page')
+def diary_page():
+    return render_template('page.html')
 
 
 if __name__ == '__main__':
