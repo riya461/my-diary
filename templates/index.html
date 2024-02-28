@@ -1,20 +1,81 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    {{user}}
-    {{today}}
-    {% if today : %}
-    <!--if block html code-->
-    <!-- written the entry -->
-    {% else %}
-    <!--else block html code-->
+  </head>
+  <body>
+    {{user}} {{today}} {% if today : %} {% else %}
     <button><a href="/diary">Write today's entry</a></button>
     {% endif %}
-    <!--  if today false prompt to write -->
-</body>
-</html>
+  </body>
+</html> -->
+
+{% extends "base.html" %} {% block content %}
+<div class="index-page">
+  <div class="sidebar">
+    <div class="side-tile">Sunday</div>
+    <div class="side-tile">Monday</div>
+    <div class="side-tile">Tuesday</div>
+    <div class="side-tile">Wednesday</div>
+    <div class="side-tile">Thursday</div>
+    <div class="side-tile">Friday</div>
+    <div class="side-tile">Saturday</div>
+  </div>
+  <div class="details">
+    <div class="graph">
+      <canvas id="myChart"></canvas>
+    </div>
+    <div class="today-data">
+      <div id="date">24th feb 2023</div>
+      <h2>Feeling good!</h2>
+      <div id="texts">
+        Today has been a rollercoaster of emotions and experiences. The morning
+        started off with a sense of excitement as I embarked on a new project at
+        work. The challenges ahead seem daunting, but I can't help but feel a
+        surge of motivation to tackle them head-on.<br />
+        During lunch, I took a stroll in the nearby park. The weather was crisp,
+        and the sun cast a warm glow on everything around. Nature has a unique
+        way of calming my mind, and I found solace in the rustling leaves and
+        the chirping of birds. It's amazing how a short break outdoors can
+        rejuvenate the spirit.<br />
+        In the afternoon, a surprise call from an old friend brought back
+        cherished memories. We reminisced about the good old days, sharing
+        laughter and updates on our lives. It's remarkable how friendships can
+        withstand the test of time, providing a comforting anchor in the midst
+        of life's uncertainties. <br />As the day winds down, I find myself
+        reflecting on the small victories and the connections that make life
+        meaningful. Despite the inevitable challenges, there's a sense of
+        gratitude for the opportunities and relationships that shape my journey.
+        Tomorrow is a new day, and I look forward to what it brings.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const labels = {{ labels | tojson}};
+
+  const data = {
+      labels: labels,
+      datasets: [{
+          label: 'Sales',
+          backgroundColor: ' rgb(229, 22, 70)',
+          borderColor: ' rgb(229, 22, 70)',
+          data: {{ data | tojson}},
+      }]
+  };
+
+  const config = {
+      type: 'line',
+      data: data,
+      options: { maintainAspectRatio: false }
+  };
+
+  const myChart = new Chart(
+      document.getElementById('myChart'),
+      config
+  );
+</script>
+{% endblock %}

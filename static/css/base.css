@@ -2,6 +2,7 @@
 @import url("./home.css");
 @import url("./login.css");
 @import url("./about.css");
+@import url("./index.css");
 
 body {
   font-family: "Poppins", sans-serif;
@@ -34,8 +35,12 @@ body {
 }
 
 .zenpad-logo>img {
-  width: 20px;
+  width: 25px;
   margin-bottom: -5px;
+}
+
+.zenpad-logo {
+  font-size: 22px;
 }
 
 .font-playfair {
@@ -46,4 +51,8 @@ body {
 a {
   color: black;
   text-decoration: none;
+}
+
+.username {
+  margin-left: 20px;
 }

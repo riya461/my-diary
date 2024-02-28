@@ -118,12 +118,24 @@ def index():
             today = False
     except Exception as e:
         print(e)
-     
-    
     
     return render_template('index.html', user=name, today = today)
 
+@app.route('/temp')
+def temp():
+     
+    labels = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+    ]
+ 
+    data = [0, 10, 15, 8, 22, 18, 25]
 
+    return render_template('index.html', labels = labels, data = data)
 
 @app.route('/diary', methods=["GET", "POST"])
 def diary():
