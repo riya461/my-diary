@@ -1,0 +1,64 @@
+.index-page {
+  display: flex;
+  gap: 50px;
+  margin: 35px 35px 10px 35px;
+  min-height: calc(100vh - 120px);
+}
+
+.side-bar {
+  background: #fff;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: min(250px, 25vw);
+  display: flex;
+  flex-direction: column;
+
+}
+
+.side-tile {
+  padding: 8px;
+  font-weight: 500;
+  font-size: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #555;
+  cursor: pointer;
+  transition: background-color ease-out 250ms;
+}
+
+.side-tile:hover {
+  background-color: #eee;
+}
+
+.details {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.graph {
+  height: 250px;
+}
+
+.history {
+  padding: 25px;
+}
+
+.history-tile>.date {
+  font-size: 20px;
+  margin-right: 20px;
+  padding-top: 25px;
+  padding-bottom: 10px;
+  border-bottom: dashed #aaa;
+}
+
+.history-tile {
+  display: none;
+}
+
+.history-tile.selected {
+  display: block;
+}
