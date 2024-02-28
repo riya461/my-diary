@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from datetime import date
-from analyser import sentimental_analysis
+# from analyser import sentimental_analysis
 
 load_dotenv()
 app = Flask(__name__)
@@ -132,15 +132,14 @@ def diary():
     user = str(json.loads(user_n)["user"]["id"])
     data = supabase.table('users_diary').select('name').match({'id': user}).execute()
     name = data.data[0]['name']
-    today = date.today().ctime()
-    t = today.split()
-    today = t[0] + " " + t[1] + " " + t[2] + " " + t[4]
+    today = date.today().strftime("%Y-%m-%d")
     if request.method == 'POST':
         user = supabase.auth.get_user()
         user_n = user.json()
         user = str(json.loads(user_n)["user"]["id"])
         entry = request.form['entry']
-        mood = sentimental_analysis(entry)
+        # mood = sentimental_analysis(entry)
+        mood = "Fustrated"
         supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry}]).execute()
         suggestion = "You seem to be feeling " + mood + " today. It's important to take care of yourself. Try to do something that makes you happy."
         return render_template('diary.html', name= name, today = today, suggestion = suggestion,prompt = True)
