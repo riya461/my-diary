@@ -138,8 +138,10 @@ def index():
 
 
 
+
 @app.route('/diary', methods=["GET", "POST"])
 def diary():
+    
     user = supabase.auth.get_user()
     user_n = user.json()
     user = str(json.loads(user_n)["user"]["id"])
@@ -160,10 +162,9 @@ def diary():
         sex = data.data[0]['sex']
         age = data.data[0]['age']
         date_val = date.today().strftime("%Y-%m-%d")
-        try:
-            trigger = check_sensitive_words(entry)
-        except:
-            trigger = 'NULL'
+        
+        trigger = list(check_sensitive_words(entry).keys())[0]
+        
 
         # code to get suggestion
         try:
@@ -190,10 +191,10 @@ def diary():
             value = "It's clear that you've been through some really tough times, and I'm so sorry to hear that. It's okay to feel the way you do, and it's okay to seek help. You don't have to carry this weight alone. There are professionals who can help you work through these feelings and experiences. You're not alone in this, and I'm here for you."
         else:
             value = "See you tomorrow : )"
-        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = s1,prompt = True, trigger_section = value)
+        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = s1,prompt = True, trigger_section = value, mood = mood.lower())
     return render_template('diary.html', name= name, today = today, prompt = False)
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

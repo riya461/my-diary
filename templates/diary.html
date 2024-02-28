@@ -33,53 +33,39 @@
     </div>
     {% if prompt == True %}
     <div id="popup">
-        <p>
-            <h3>{{ heading }}</h3>
-
-            <div class="trigger">
-                {{ trigger_section }}
+        <h1 class="font-playfair"> {{heading}} </h1>
+        <div class="section">
+            <div class="image">
+                {% if mood == "happy" %}
+                <img src="../static/images/happy.jpg" alt="happy" />
+                {% elif mood == "sad" %}
+                <img src="../static/images/sad.jpg" alt="sad" />
+                {% elif mood == "productive" %}
+                <img src="../static/images/productive.jpg" alt="angry" />
+                {% elif mood == "lonely" %}
+                <img src="../static/images/lonely.jpg" alt="neutral" />
+                {% elif mood == "fustrated" %}
+                <img src="../static/images/fustrated.jpg" alt="neutral" />
+                {% endif %}
             </div>
+            <div class="text-val">
+                <p>{{ trigger_section }}</p>
 
-            
-            <ol>
-            {% for i in suggestion %}
-            <br>
-            <li style="text-align: left;">{{ i }}</li>
-            <br>
-            {% endfor %}
-            </ol>
+                <div class="sug">
+                    <ul>
+                        {% for i in suggestion %}
+                        <li>{{ i }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
 
-           
-
-
-            <button class="login-btn"><a href="/index">Go to Home</a></button>
-        </p>
+            <button><a href="/index">Go to Home</a></button>
+        
     </div>
     {% endif %}
   </body>
-  <style>
-    #popup {
-            display: block;
-            text-align: center;
-            position: fixed;
-            top: 30%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 20px;
-            border-radius: 5px;
-            border-color: black;
-            z-index: 1000;
-            font-family: "Inter", sans-serif;
-            color: white;
-
-            width: 500px;
-            background-color: #676767;
-            margin: 75px auto;
-            box-shadow: 10px 8px 0 2px #f3f3f3, 18px 10px 0 2px #e6e6e6;
-
-            
-        }
-  </style>
   <script>
      function showPopup(event) {
             event.preventDefault(); // Prevent the form from submitting normally

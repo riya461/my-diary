@@ -123,17 +123,18 @@ def suggession(user_entry,age,sex,person,calm,hobby):
     
     return list(suggestion_result)
 
-ensitive_keys={
-    "emotional_distress":['Depressed','Hopeless','Worthless','Overwhelmed','Anxious','Panic','Fearful','Isolated','Lonely'],
-    "crisis":['Suicidal thoughts','Self harm','No reason to live','Unbearable pain','Feeling trapped','Wanting to die','End it all'],
-    "negative_perception":['Hate myself','Cant do anything right','Failure','Disappointment','Useless','Invisible'],
-    "personal_struggle":['Conflict','Breakup','Divorce','Abuse','Bullying','Betrayal','Rejection'],
-    "health_symptoms":['Fatigue','Insomnia','appetite', 'tired','Numb','Cant focus'],
-    "bad_behaviour":['Withdrawing','Isolating','Drinking','Using' ,'drugs','Aggression'],
-    "trauma":['Trauma','Assault','Accident','Disaster','Death','Loss']
-}
+def check_sensitive_words(user_text):
+    
+    sensitive_keys={
+        "emotional_distress":['Depressed','Hopeless','Worthless','Overwhelmed','Anxious','Panic','Fearful','Isolated','Lonely'],
+        "crisis":['Suicidal thoughts','Self harm','No reason to live','Unbearable pain','Feeling trapped','Wanting to die','End it all'],
+        "negative_perception":['Hate myself','Cant do anything right','Failure','Disappointment','Useless','Invisible'],
+        "personal_struggle":['Conflict','Breakup','Divorce','Abuse','Bullying','Betrayal','Rejection'],
+        "health_symptoms":['Fatigue','Insomnia','appetite', 'tired','Numb','Cant focus'],
+        "bad_behaviour":['Withdrawing','Isolating','Drinking','Using' ,'drugs','Aggression'],
+        "trauma":['Trauma','Assault','Accident','Disaster','Death','Loss']
+    }
 
-def check_sensitive_words(user_text, sensitive_keys):
     user_text_lower = user_text.lower()
     matched_categories = {}
 
@@ -158,4 +159,5 @@ def check_sensitive_words(user_text, sensitive_keys):
 # # # print(summary_extractor(user_entry))
 # # output=suggession(user_entry,input1,'20','talking with peple, interacting with kids','love playing guitar,drawing','getting treated well, having good friends')
 # # output_json=data = json.loads(output)
-# # recomendatios=output[4]['recommendations']
+# # # recomendatios=output[4]['recommendations']
+# print(list(check_sensitive_words('I am feeling so worthless and hopeless', sensitive_keys).keys())[0])

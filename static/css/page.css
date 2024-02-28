@@ -99,3 +99,71 @@ textarea {
 .page-form-btn>img:hover {
   scale: 1.1
 }
+
+#popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -35%);
+  padding: 30px;
+  border-radius: 10px;
+  border-color: black;
+  z-index: 1000;
+  font-family: "Inter", sans-serif;
+  color: white;
+  
+
+  width: 900px;
+  background-color: #676767;
+  margin: 75px auto;
+}
+#popup>h3 {
+  text-align: center;
+}
+#popup>button {
+  padding: 8px 22px;
+  border-radius: 25px;
+  background-color: black;
+  border: 1px solid white;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+#popup>button>a{
+  color: white;
+  text-decoration: none;
+}
+
+.section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 25px 35px;
+  gap: 40px;
+}
+.image img{
+  border-radius: 10px;
+  width: 300px;
+  object-fit: cover;
+
+}
+
+.text-val{
+  display: flex;
+  flex-direction: column;
+
+}
+.sug>ul {
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+.font-playfair {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+}
