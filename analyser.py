@@ -125,19 +125,19 @@ def suggession(user_entry,age,sex,person,calm,hobby):
 
 
 
-user_entry='''Today felt like a rollercoaster of emotions. The morning started off on a high note—I received an email confirming my promotion at work, something I’ve been working towards for the past year. I felt a surge of excitement and pride. It was a moment of validation for all the hard work and late nights. I decided to treat myself to a nice breakfast, basking in the glow of my accomplishment.
-                But, as the day progressed, a cloud seemed to hover over me. I had a long and draining meeting in the afternoon. Discussions went in circles, and it felt like we were not making any progress. The frustration from the meeting lingered longer than I expected, casting a shadow over my earlier joy.
-                Later in the evening, I went for a walk to clear my head. The park was serene, with the gentle rustling of leaves and distant laughter of children playing. It was a bittersweet feeling—peaceful yet tinged with the day’s earlier frustrations. I couldn’t shake off a sense of loneliness, wondering why I didn’t have someone to share my day's ups and downs with.'''
+# user_entry='''Today felt like a rollercoaster of emotions. The morning started off on a high note—I received an email confirming my promotion at work, something I’ve been working towards for the past year. I felt a surge of excitement and pride. It was a moment of validation for all the hard work and late nights. I decided to treat myself to a nice breakfast, basking in the glow of my accomplishment.
+#                 But, as the day progressed, a cloud seemed to hover over me. I had a long and draining meeting in the afternoon. Discussions went in circles, and it felt like we were not making any progress. The frustration from the meeting lingered longer than I expected, casting a shadow over my earlier joy.
+#                 Later in the evening, I went for a walk to clear my head. The park was serene, with the gentle rustling of leaves and distant laughter of children playing. It was a bittersweet feeling—peaceful yet tinged with the day’s earlier frustrations. I couldn’t shake off a sense of loneliness, wondering why I didn’t have someone to share my day's ups and downs with.'''
 
-print(suggession(user_entry, "20","Male", "Amma","Beach","Guitar")[3]["recommendations"][0:3])
-
-
+# print(suggession(user_entry, "20","Male", "Amma","Beach","Guitar")[3]["recommendations"][0:3])
 
 
 
-input1='Arjun'
 
-# # print(summary_extractor(user_entry))
-# output=suggession(user_entry,input1,'20','talking with peple, interacting with kids','love playing guitar,drawing','getting treated well, having good friends')
-# output_json=data = json.loads(output)
-# recomendatios=output[4]['recommendations']
+
+# input1='Arjun'
+
+# # # print(summary_extractor(user_entry))
+# # output=suggession(user_entry,input1,'20','talking with peple, interacting with kids','love playing guitar,drawing','getting treated well, having good friends')
+# # output_json=data = json.loads(output)
+# # recomendatios=output[4]['recommendations']

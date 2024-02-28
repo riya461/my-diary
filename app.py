@@ -98,7 +98,30 @@ def home():
 @app.route('/test')
 def test():
     return render_template('diary.html',user="")
+@app.route('/indexafter')
+def indexafter():
+    user = supabase.auth.get_user()
+    user_n = user.json()
+    user = str(json.loads(user_n)["user"]["id"])
+    data = supabase.table('users_diary').select('name').match({'id': user}).execute()
+    name = data.data[0]['name']
 
+    print(user)
+    date_val = date.today().strftime("%Y-%m-%d")
+    print(date_val)
+
+    val = supabase.table('logs').select('*').match({'id_name': user, 'date_entry': date_val}).execute()
+    
+    
+    # mood tracker for the month 
+    month = date.today().strftime("%Y-%m")
+    month = month + '-01'
+    mood_tracker = supabase.table('logs').select('date_entry','mood').match({'id_name': user}).lte('date_entry', date_val).gte('date_entry', month).execute()
+    # past 7 days journal entries
+    
+
+    val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).execute()
+    return render_template('index.html',user=name, today = True, val = val.data, val_past = val_past.data, mood_tracker = mood_tracker.data)
 @app.route('/index')
 def index():
 
@@ -117,7 +140,7 @@ def index():
         print(val.data)
         print(len(val.data))
 
-        if int(len(val_id.data)) == 0:
+        if len(val_id.data) == 0:
             today = False
         else:
             today = True
