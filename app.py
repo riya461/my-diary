@@ -124,8 +124,8 @@ def index():
         # past 7 days journal entries
         
 
-        val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).order('id').execute()
-        if False == date_val :
+        val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).order('date_entry', desc=True).execute()
+        if val_past.data[0].get('date_entry') == date_val :
             today = True
         else :
             today = False
@@ -159,6 +159,8 @@ def diary():
         person = data.data[0]['person_field']
         sex = data.data[0]['sex']
         age = data.data[0]['age']
+        date_val = date.today().strftime("%Y-%m-%d")
+
 
         # code to get suggestion
         try:
@@ -168,7 +170,7 @@ def diary():
             return render_template('diary.html', name= name, today = today, prompt = False)
 
         
-        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':s1, 'heading': heading}]).execute()
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':s1, 'heading': heading, 'date_entry' : date_val}]).execute()
         
         return render_template('diary.html', name= name, today = today, heading=heading, suggestion = s1,prompt = True)
     return render_template('diary.html', name= name, today = today, prompt = False)
