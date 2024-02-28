@@ -1,0 +1,83 @@
+.about-page {
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+}
+
+.about-outer {
+  display: flex;
+  gap: 20px;
+  height: 100%;
+  align-items: stretch;
+}
+
+.about-outer>img {
+  width: 50%;
+  border-radius: 12px;
+}
+
+.about-form {
+  background: #fff;
+  margin: 0 20px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 40%;
+  overflow: hidden;
+
+}
+
+.about-form>form {
+  height: 100%;
+  display: flex;
+  transition: all 350ms;
+}
+
+.about-card>h2 {
+  margin-bottom: 45px;
+}
+
+.about-card {
+  flex: 0 0 100%;
+  position: relative;
+  height: 100%;
+}
+
+.about-form input {
+  border: none;
+  outline: none;
+  width: 90%;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #ccc;
+  font-size: 18px;
+}
+
+.about-form textarea {
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+  resize: none;
+  outline: none;
+  border: none;
+
+  width: 90%;
+  height: 85%;
+  font-size: 18px;
+  font-family: "Poppins", Arial, Helvetica, sans-serif;
+}
+
+.about-form-btn {
+  background-color: rgb(229, 22, 70);
+  padding: 10px 32px;
+  font-size: 18px;
+  position: absolute;
+  border: none;
+  border-radius: 5px;
+  right: 30px;
+  bottom: 40px;
+  color: white;
+  cursor: pointer;
+}
