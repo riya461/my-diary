@@ -9,9 +9,14 @@
     {{name}}
     {{today}}
     Content of the diary will be displayed here
+    
     <form action="/diary" method="post">
         <input type="text" name = "entry">
         <button type="submit">Submit</button>
     </form>
+    {% if prompt == True %}
+    <h1>{{suggestion}}</h1>
+    <button><a href="/index">Home</a></button>
+    {% endif %}
 </body>
 </html>
