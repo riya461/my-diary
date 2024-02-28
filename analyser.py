@@ -42,13 +42,13 @@ def summary_extractor(user_entry):
             Given the user journel entry, analyse the text and provide a 
             one sentence title for describing the experience. use the examples to curate necessary output. 
         Example 1: User entry: "I finally finished the marathon I've been training for months. It was challenging, but crossing the finish line felt amazing."
-        Title: "Marathon Victory"
+        Title: Marathon Victory
         
         Example 2: User entry: "Spent the afternoon baking cookies with my kids. We made a huge mess, but the fun and laughter were worth it."
         Title: " Messy Kitchen, Happy Hearts"
         
         Example 3: User entry: "Had a difficult day at work. Felt overwhelmed by the projects piling up and the looming deadlines."
-        Title: "Work Woes"
+        Title: Work Woes
         
         User entry: "{user_entry}"
         Title:
@@ -78,7 +78,7 @@ def sentimental_analysis(user_entry):
             
             Example 3: User entry: "Had a difficult day at work. Felt overwhelmed by the projects piling up and the looming deadlines."
             Frustrated
-            Please provide the sentiment classification ONLY.
+            Please provide the sentiment classification ONLY and not in double quotes.
             Text: {user_entry}"'''
         )
     sentiment_chain=LLMChain(llm=openai,prompt=sentiment_template1)

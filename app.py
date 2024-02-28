@@ -113,14 +113,21 @@ def index():
         val = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
         print(val.data)
         print(len(val.data))
+
         if int(len(val.data)) == 0:
             today = False
         else:
             today = True
-            
+        
         # mood tracker for the month 
+        month = date.today().strftime("%Y-%m")
+        month = month + '-01'
+        mood_tracker = supabase.table('logs').select('date_entry','mood').match({'id_name': user}).lte('date_entry', date_val).gte('date_entry', month).execute()
         # past 7 days journal entries
-        return render_template('index.html', user=name, today = today, val = val.data)
+        
+
+        val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).execute()
+        return render_template('index.html', user=name, today = today, val = val.data, val_past = val_past.data, mood_tracker = mood_tracker.data)
         
     except Exception as e:
         print(e)
