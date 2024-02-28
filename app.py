@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from datetime import date
-from analyser import sentimental_analysis
+from analyser import sentimental_analysis, keywords_extractor, summary_extractor, suggession
 
 load_dotenv()
 app = Flask(__name__)
@@ -107,19 +107,33 @@ def index():
     name = data.data[0]['name']
 
     print(user)
-    today = True
-    date_val = date.today().strftime("%d-%m-%Y")
+    date_val = date.today().strftime("%Y-%m-%d")
     print(date_val)
     try:
         val = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
         print(val.data)
         print(len(val.data))
+
         if int(len(val.data)) == 0:
             today = False
+        else:
+            today = True
+        
+        # mood tracker for the month 
+        month = date.today().strftime("%Y-%m")
+        month = month + '-01'
+        mood_tracker = supabase.table('logs').select('date_entry','mood').match({'id_name': user}).lte('date_entry', date_val).gte('date_entry', month).execute()
+        # past 7 days journal entries
+        
+
+        val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).execute()
+        return render_template('index.html', user=name, today = today, val = val.data, val_past = val_past.data, mood_tracker = mood_tracker.data)
+        
     except Exception as e:
         print(e)
-    
-    return render_template('index.html', user=name, today = today)
+
+        return render_template('error.html', message=str(e))
+
 
 @app.route('/temp')
 def temp():
@@ -144,13 +158,14 @@ def diary():
     user = str(json.loads(user_n)["user"]["id"])
     data = supabase.table('users_diary').select('name').match({'id': user}).execute()
     name = data.data[0]['name']
-    today = date.today().strftime("%d-%m-%Y")
+    today = date.today().strftime("%Y-%m-%d")
     if request.method == 'POST':
         user = supabase.auth.get_user()
         user_n = user.json()
         user = str(json.loads(user_n)["user"]["id"])
         entry = request.form['entry']
         mood = sentimental_analysis(entry)
+        heading = summary_extractor(entry)
         data = supabase.table('users_diary').select('*').match({'id': user}).execute()
         hobby = data.data[0]['hobby_field']
         calm = data.data[0]['calm_field']
@@ -159,10 +174,11 @@ def diary():
         age = data.data[0]['age']
 
         # code to get suggestion
-        suggestion = "You seem to be feeling " + mood + " today. It's important to take care of yourself. Try to do something that makes you happy."
-        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':suggestion}]).execute()
+        suggestion = suggession(entry,age,sex,person,calm,hobby)
         
-        return render_template('diary.html', name= name, today = today, suggestion = suggestion,prompt = True)
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':suggestion, 'heading': heading}]).execute()
+        
+        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = suggestion,prompt = True)
     return render_template('diary.html', name= name, today = today, prompt = False)
 
 

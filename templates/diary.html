@@ -32,7 +32,11 @@
       </div>
     </div>
     {% if prompt == True %}
-    <h1>{{suggestion}}</h1>
+    <h3>{{ heading }}</h3>
+    {% for i in suggestion %}
+    <li>{{ i }}</li>
+    {% endfor %}
+    
     <button><a href="/index">Exit</a></button>
     {% endif %}
   </body>

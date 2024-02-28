@@ -1,7 +1,13 @@
+
+
 from langchain_openai import OpenAI,OpenAIEmbeddings
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 from langchain_community.llms import Ollama
+from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain.output_parsers.json import SimpleJsonOutputParser
+
+json_parser = SimpleJsonOutputParser()
 
 import os
 import json
@@ -12,6 +18,45 @@ openapi_key=os.getenv('OPENAI_API_KEY')
 
 openai = OpenAI(temperature=0.7)
 gemma = Ollama(model="gemma:2b")
+gemini = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=os.getenv('GEMINI_API_KEY')
+)
+
+
+
+def keywords_extractor(user_entry):
+    keywords_template=PromptTemplate(
+            input_variables=['user_entry'],
+            template=''' Given the user journel entry: {user_entry}, analyze and extract the main 
+            keywords that represent the core topics or subjects addressed. 
+            Please list these keywords in a structured json format, emphasizing the 
+            specific terms with no extra wordings.'''
+        )
+    keyword_chain=LLMChain(llm=gemma,prompt=keywords_template)
+    keywords=keyword_chain.invoke(user_entry)
+    return keywords
+
+def summary_extractor(user_entry):
+    summary_template=PromptTemplate(
+            input_variables=['user_entry'],
+            template='''
+            Given the user journel entry, analyse the text and provide a 
+            one sentence title for describing the experience. use the examples to curate necessary output. 
+        Example 1: User entry: "I finally finished the marathon I've been training for months. It was challenging, but crossing the finish line felt amazing."
+        Title: Marathon Victory
+        
+        Example 2: User entry: "Spent the afternoon baking cookies with my kids. We made a huge mess, but the fun and laughter were worth it."
+        Title: " Messy Kitchen, Happy Hearts"
+        
+        Example 3: User entry: "Had a difficult day at work. Felt overwhelmed by the projects piling up and the looming deadlines."
+        Title: Work Woes
+        
+        User entry: "{user_entry}"
+        Title:
+        '''
+        )
+    summary_chain=LLMChain(llm=openai,prompt=summary_template)
+    summary_text=summary_chain.invoke(user_entry)
+    return summary_text['text']
 
 
 def sentimental_analysis(user_entry):
@@ -33,7 +78,7 @@ def sentimental_analysis(user_entry):
             
             Example 3: User entry: "Had a difficult day at work. Felt overwhelmed by the projects piling up and the looming deadlines."
             Frustrated
-            Please provide the sentiment classification ONLY.
+            Please provide the sentiment classification ONLY and not in double quotes.
             Text: {user_entry}"'''
         )
     sentiment_chain=LLMChain(llm=openai,prompt=sentiment_template1)
@@ -41,40 +86,49 @@ def sentimental_analysis(user_entry):
     
     return sentiment_category['text']
 
-def keywords_extractor(user_entry):
-    keywords_template=PromptTemplate(
-            input_variables=['user_entry'],
-            template=''' Given the user journel entry: {user_entry}, analyze and extract the main 
-            keywords that represent the core topics or subjects addressed. 
-            Please list these keywords in a structured json format, emphasizing the 
-            specific terms with no extra wordings.'''
-        )
-    keyword_chain=LLMChain(llm=gemma,prompt=keywords_template)
-    keywords=keyword_chain.invoke(user_entry)
-    return keywords
 
-def summary_extractor(user_entry):
+
+def suggession(user_entry,age,sex,person,calm,hobby):
+    
     summary_template=PromptTemplate(
-            input_variables=['user_entry'],
+            input_variables=['user_entry', 'age', 'sex', 'person', 'calm', 'hobby'],
+            
             template='''
-            Given the user journel entry, analyse the text and provide a 
-            one sentence title for describing the experience. use the examples to curate necessary output. 
-        Example 1: User entry: "I finally finished the marathon I've been training for months. It was challenging, but crossing the finish line felt amazing."
-        Title: "Marathon Victory: A Challenge Overcome"
-        
-        Example 2: User entry: "Spent the afternoon baking cookies with my kids. We made a huge mess, but the fun and laughter were worth it."
-        Title: "Baking Bliss: Messy Kitchen, Happy Hearts"
-        
-        Example 3: User entry: "Had a difficult day at work. Felt overwhelmed by the projects piling up and the looming deadlines."
-        Title: "Work Woes: Overwhelmed by Deadlines"
-        
-        User entry: "{user_entry}"
-        Title:
-        '''
+            You are an expert therapist. You give highly valuable suggessions according to 
+            your patients thoughts and give reccomendations to them. Yout patient writes
+            journel daily and your job is analyse the entry, analyse the situation and give 
+            proper recommendation to the user which highly aligns with the interests and activities.
+            Give reccommendation on how user can cpe with the situation, encourage morale and mood.
+            Give Quests which the user can do to cope from adverse situations.
+            A {sex} user is present who is {age} years old. 
+            He described about his interests and hobbies as {hobby}.
+            He calms himself with {calm} and describes his cherished people as {person}.
+            With the following journel entry {user_entry}. Help the patient. Return the summarised response in 
+            proper json format with keys reccomendations, quests . 
+            
+            '''
         )
-    summary_chain=LLMChain(llm=openai,prompt=summary_template)
-    summary_text=summary_chain.invoke(user_entry)
-    return summary_text['text']
+    json_chain = summary_template | gemini | json_parser
+    # suggestion_chain=LLMChain(llm=gemini,prompt=summary_template)
+    suggestion_result = json_chain.stream({
+        'user_entry': user_entry,
+        'age': age,
+        'sex': sex,
+        'person': person,
+        'calm': calm,
+        'hobby': hobby
+    })
+    recomendationns=list(suggestion_result)[4]['quests']
+    print(recomendationns)
+    for i in recomendationns:
+        print(i,'\n\n')
+    return recomendationns
+
+
+
+
+
+
 
 user_entry='''Today felt like a rollercoaster of emotions. The morning started off on a high note—I received an email confirming my promotion at work, something I’ve been working towards for the past year. I felt a surge of excitement and pride. It was a moment of validation for all the hard work and late nights. I decided to treat myself to a nice breakfast, basking in the glow of my accomplishment.
                 But, as the day progressed, a cloud seemed to hover over me. I had a long and draining meeting in the afternoon. Discussions went in circles, and it felt like we were not making any progress. The frustration from the meeting lingered longer than I expected, casting a shadow over my earlier joy.
@@ -82,5 +136,9 @@ user_entry='''Today felt like a rollercoaster of emotions. The morning started o
 
 
 
+input1='Arjun'
 
-print(sentimental_analysis(user_entry))
+# # print(summary_extractor(user_entry))
+# output=suggession(user_entry,input1,'20','talking with peple, interacting with kids','love playing guitar,drawing','getting treated well, having good friends')
+# output_json=data = json.loads(output)
+# recomendatios=output[4]['recommendations']
