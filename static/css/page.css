@@ -30,6 +30,15 @@
   margin: 0 -35px 40px -35px;
 }
 
+.login-btn{
+  font-weight: 500;
+  font-size: 16px;
+  padding: 8px 22px;
+  border-radius: 25px;
+  background-color: transparent;
+  border: 1px solid black;
+  cursor: pointer;
+}
 .punchholes>div {
   width: 20px;
   height: 20px;

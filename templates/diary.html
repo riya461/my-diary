@@ -32,16 +32,61 @@
       </div>
     </div>
     {% if prompt == True %}
-    <h3>{{ heading }}</h3>
-    {% for i in suggestion %}
-    <li>{{ i }}</li>
-    {% endfor %}
-    
-    <button><a href="/index">Exit</a></button>
+    <div id="popup">
+        <p>
+            <h3>{{ heading }}</h3>
+            <ol>
+            {% for i in suggestion %}
+            <br>
+            <li style="text-align: left;">{{ i }}</li>
+            <br>
+            {% endfor %}
+            </ol>
+
+
+            <button class="login-btn"><a href="/index">Go to Home</a></button>
+        </p>
+    </div>
     {% endif %}
   </body>
+  <style>
+    #popup {
+            display: block;
+            text-align: center;
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border-radius: 5px;
+            border-color: black;
+            z-index: 1000;
+            font-family: "Inter", sans-serif;
+            color: white;
 
+            width: 500px;
+            background-color: #676767;
+            margin: 75px auto;
+            box-shadow: 10px 8px 0 2px #f3f3f3, 18px 10px 0 2px #e6e6e6;
+
+            
+        }
+  </style>
   <script>
+     function showPopup(event) {
+            event.preventDefault(); // Prevent the form from submitting normally
+            
+            // Show the popup
+            document.getElementById('popup').style.display = 'block';
+            
+            // You can add additional logic here such as submitting the form via AJAX
+            
+            // Optionally, you can redirect the user after a certain delay
+            setTimeout(function() {
+                window.location.href = '/index'; // Replace with your desired redirect URL
+            }, 3000); // Redirect after 3 seconds (3000 milliseconds)
+        }
+
     const autogrow = (elem) => {
       elem.style.height = elem.scrollHeight + "px";
     }

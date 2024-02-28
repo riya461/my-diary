@@ -18,8 +18,7 @@ openapi_key=os.getenv('OPENAI_API_KEY')
 
 openai = OpenAI(temperature=0.7)
 gemma = Ollama(model="gemma:2b")
-gemini = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=os.getenv('GEMINI_API_KEY')
-)
+gemini = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=os.getenv('GEMINI_API_KEY'), temperature=0.1)
 
 
 
@@ -81,7 +80,7 @@ def sentimental_analysis(user_entry):
             Please provide the sentiment classification ONLY and not in double quotes.
             Text: {user_entry}"'''
         )
-    sentiment_chain=LLMChain(llm=openai,prompt=sentiment_template1)
+    sentiment_chain=LLMChain(llm=gemini,prompt=sentiment_template1)
     sentiment_category=sentiment_chain.invoke(user_entry)
     
     return sentiment_category['text']
@@ -103,9 +102,12 @@ def suggession(user_entry,age,sex,person,calm,hobby):
             A {sex} user is present who is {age} years old. 
             He described about his interests and hobbies as {hobby}.
             He calms himself with {calm} and describes his cherished people as {person}.
-            With the following journel entry {user_entry}. Help the patient. Return the summarised response in 
-            proper json format with keys reccomendations, quests . 
-            
+            With the following journel entry {user_entry}. Help the patient. Return the summarised response in a proper json format with keys reccomendations. 
+
+            Example:
+            ["Write a gratitude journal each day, listing three things you're grateful for.", "Spend time in nature for at least 30 minutes each day."]
+            ["Do something kind for someone else each day.", "Learn a new skill or hobby.", "Meditate or practice mindfulness for 10 minutes each day."] 
+            ["Set a goal to connect with one friend or family member each day.", "Challenge one negative thought each day by reframing it in a more positive way."]
             '''
         )
     json_chain = summary_template | gemini | json_parser
@@ -118,27 +120,24 @@ def suggession(user_entry,age,sex,person,calm,hobby):
         'calm': calm,
         'hobby': hobby
     })
-    recomendationns=list(suggestion_result)[4]['quests']
-    print(recomendationns)
-    for i in recomendationns:
-        print(i,'\n\n')
-    return recomendationns
+    
+    return list(suggestion_result)
+
+
+
+# user_entry='''Today felt like a rollercoaster of emotions. The morning started off on a high note—I received an email confirming my promotion at work, something I’ve been working towards for the past year. I felt a surge of excitement and pride. It was a moment of validation for all the hard work and late nights. I decided to treat myself to a nice breakfast, basking in the glow of my accomplishment.
+#                 But, as the day progressed, a cloud seemed to hover over me. I had a long and draining meeting in the afternoon. Discussions went in circles, and it felt like we were not making any progress. The frustration from the meeting lingered longer than I expected, casting a shadow over my earlier joy.
+#                 Later in the evening, I went for a walk to clear my head. The park was serene, with the gentle rustling of leaves and distant laughter of children playing. It was a bittersweet feeling—peaceful yet tinged with the day’s earlier frustrations. I couldn’t shake off a sense of loneliness, wondering why I didn’t have someone to share my day's ups and downs with.'''
+
+# print(suggession(user_entry, "20","Male", "Amma","Beach","Guitar")[3]["recommendations"][0:3])
 
 
 
 
 
+# input1='Arjun'
 
-
-user_entry='''Today felt like a rollercoaster of emotions. The morning started off on a high note—I received an email confirming my promotion at work, something I’ve been working towards for the past year. I felt a surge of excitement and pride. It was a moment of validation for all the hard work and late nights. I decided to treat myself to a nice breakfast, basking in the glow of my accomplishment.
-                But, as the day progressed, a cloud seemed to hover over me. I had a long and draining meeting in the afternoon. Discussions went in circles, and it felt like we were not making any progress. The frustration from the meeting lingered longer than I expected, casting a shadow over my earlier joy.
-                Later in the evening, I went for a walk to clear my head. The park was serene, with the gentle rustling of leaves and distant laughter of children playing. It was a bittersweet feeling—peaceful yet tinged with the day’s earlier frustrations. I couldn’t shake off a sense of loneliness, wondering why I didn’t have someone to share my day's ups and downs with.'''
-
-
-
-input1='Arjun'
-
-# # print(summary_extractor(user_entry))
-# output=suggession(user_entry,input1,'20','talking with peple, interacting with kids','love playing guitar,drawing','getting treated well, having good friends')
-# output_json=data = json.loads(output)
-# recomendatios=output[4]['recommendations']
+# # # print(summary_extractor(user_entry))
+# # output=suggession(user_entry,input1,'20','talking with peple, interacting with kids','love playing guitar,drawing','getting treated well, having good friends')
+# # output_json=data = json.loads(output)
+# # recomendatios=output[4]['recommendations']

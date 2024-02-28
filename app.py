@@ -95,7 +95,9 @@ def about():
 @app.route('/')
 def home():
     return render_template('home.html',user="")
-
+@app.route('/test')
+def test():
+    return render_template('diary.html',user="")
 
 @app.route('/index')
 def index():
@@ -110,24 +112,24 @@ def index():
     date_val = date.today().strftime("%Y-%m-%d")
     print(date_val)
     try:
-        val_id = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
+        
         val = supabase.table('logs').select('*').match({'id_name': user, 'date_entry': date_val}).execute()
         print(val.data)
         print(len(val.data))
 
-        if int(len(val_id.data)) == 0:
-            today = False
-        else:
-            today = True
-        
         # mood tracker for the month 
         month = date.today().strftime("%Y-%m")
         month = month + '-01'
-        mood_tracker = supabase.table('logs').select('date_entry','mood').match({'id_name': user}).lte('date_entry', date_val).gte('date_entry', month).execute()
+        mood_tracker = supabase.table('logs').select('date_entry','mood').match({'id_name': user}).lte('date_entry', date_val).gte('date_entry', month).order('date_entry',desc=True).execute()
         # past 7 days journal entries
         
 
-        val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).execute()
+        val_past = supabase.table('logs').select('*').match({'id_name': user}).lte('date_entry', date_val).order('id').execute()
+        if False == date_val :
+            today = True
+        else :
+            today = False
+        print(val_past.data)
         return render_template('index.html', user=name, today = today, val = val.data, val_past = val_past.data, mood_tracker = mood_tracker.data)
         
     except Exception as e:
@@ -159,11 +161,16 @@ def diary():
         age = data.data[0]['age']
 
         # code to get suggestion
-        suggestion = suggession(entry,age,sex,person,calm,hobby)
+        try:
+            s = suggession(entry,age,sex,person,calm,hobby)
+            s1 = s[3]["recommendations"][0:3]
+        except:
+            return render_template('diary.html', name= name, today = today, prompt = False)
+
         
-        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':suggestion, 'heading': heading}]).execute()
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':s1, 'heading': heading}]).execute()
         
-        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = suggestion,prompt = True)
+        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = s1,prompt = True)
     return render_template('diary.html', name= name, today = today, prompt = False)
 
 
