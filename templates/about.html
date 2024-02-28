@@ -1,4 +1,3 @@
-
 {% extends "base.html" %} {% block content %}
 <div class="about-page">
   <h1>Let us know you better :)</h1>
@@ -24,18 +23,29 @@
             placeholder="Age"
             required
           />
-          <input
-            class="input0"
-            type="text"
-            name="sex"
-            id="sex"
-            placeholder="Sex"
-            required
-          />
+          <div class="mydict">
+            <div>
+              <label>
+                <input type="radio" name="sex" checked="" />
+                <span>Women</span>
+              </label>
+              <label>
+                <input type="radio" name="sex" />
+                <span>Men</span>
+              </label>
+              <label>
+                <input type="radio" name="sex" />
+                <span>Others</span>
+              </label>
+            </div>
+          </div>
           <button class="about-form-btn form-next">Next</button>
         </div>
         <div class="about-card">
-          <h2>Think about your surroundings. Is there a particular place or environment where you feel especially at ease? </h2>
+          <h3>
+            Think about your surroundings. Is there a particular place or
+            environment where you feel especially at ease?
+          </h3>
           <textarea
             name="calm"
             id="calm"
@@ -44,7 +54,7 @@
           <button class="about-form-btn form-next">Next</button>
         </div>
         <div class="about-card">
-          <h2>What hobbies or activities make you feel engaged? </h2>
+          <h3>What hobbies or activities make you feel engaged?</h3>
           <textarea
             name="hobby"
             id="hobby"
@@ -53,7 +63,11 @@
           <button class="about-form-btn form-next">Next</button>
         </div>
         <div class="about-card">
-          <h2>Think about the people in your life. Who do you feel most comfortable around? What is it about their presence or actions that brings you comfort?</h2>
+          <h3>
+            Think about the people in your life. Who do you feel most
+            comfortable around? What is it about their presence or actions that
+            brings you comfort?
+          </h3>
           <textarea
             name="person"
             id="person"
