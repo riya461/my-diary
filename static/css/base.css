@@ -2,6 +2,7 @@
 @import url("./home.css");
 @import url("./login.css");
 @import url("./about.css");
+@import url("./index.css");
 
 body {
   font-family: "Poppins", sans-serif;
@@ -41,6 +42,10 @@ body {
 .font-playfair {
   font-family: "Playfair Display", serif;
   font-weight: 700;
+}
+
+.username {
+  margin-left: 12px;
 }
 
 a {
