@@ -15,7 +15,8 @@ body {
   margin: 0 25px;
 }
 
-.login-btn {
+.login-btn,
+.signup-btn {
   font-weight: 500;
   font-size: 16px;
   padding: 8px 22px;
@@ -25,6 +26,11 @@ body {
   cursor: pointer;
 }
 
+.signup-btn {
+  background-color: black;
+  color: white;
+  margin-left: 12px;
+}
 
 .zenpad-logo>img {
   width: 20px;

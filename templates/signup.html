@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -13,4 +13,45 @@
         <button type="submit">SignUp</button>
     </form>
 </body>
-</html>
+</html> -->
+
+{% extends "base.html" %} {% block content%}
+<div class="login-outer">
+  <section class="login-form">
+    <h1>SignUp</h1>
+    <form action="/signup" method="post">
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter your email address..."
+      />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+      <input
+        type="password"
+        id="password2"
+        name="password2"
+        placeholder="Confirm Password"
+      />
+      <button type="submit" class="email-auth">Continue with email</button>
+    </form>
+    <div class="login-signup">
+      Already have an account?
+      <a href="/login">Login</a>
+    </div>
+  </section>
+  <footer>
+    <p>
+      By clicking "Continue with Email" above, you acknowledge that you have
+      read and understood, and agree to ZapPad's
+      <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>.
+    </p>
+  </footer>
+</div>
+
+{% endblock %}

@@ -39,23 +39,30 @@
   flex-direction: column;
 }
 
+
 .divider {
   margin: 20px 0;
   color: #888;
 }
 
-input[type=email] {
+.login-form input {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
   border: 1px solid #ddd;
 }
 
-.forgot-password,
-.sso a {
+.forgot-password {
   text-decoration: none;
   color: #000;
-  font-size: .9em;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.login-signup,
+.login-signup>a {
+  color: #555;
+  font-size: 12px;
 }
 
 .login-outer footer {
