@@ -1,8 +1,6 @@
 {% extends "base.html" %} {% block content %}
 
 <div class="index-page">
-   
-
   <div class="side-bar">
     <h3>Past entries</h3>
     {% for i in val_past %}
@@ -13,6 +11,14 @@
     <div class="graph">
       <canvas id="myChart"></canvas>
     </div>
+    {% if not today %}
+    <div class="write-today">
+      Uh oh! Forgot todays story?
+      <button class="signup-btn">
+        <a href="/diary">Write today's entry</a>
+      </button>
+    </div>
+    {% endif %}
     <div class="history">
       {% for i in val_past %}
       <div class="history-tile">
@@ -23,11 +29,6 @@
       {% endfor %}
     </div>
   </div>
-  {% if not today %}
-  <div class="write-today">
-      <button class="login-btn"><a href="/diary">Write today's entry</a></button>
-  </div>
-  {% endif %}
 </div>
 
 <script>
@@ -57,7 +58,7 @@
       dates.push(new Date(e['date_entry']).toLocaleDateString('en-GB'))
   });
 
-  console.log(labels)
+  const todayVar = {{ today | tojson}};
 
   const data = {
       labels: dates,
@@ -74,10 +75,7 @@
       data: data,
       options: { maintainAspectRatio: false,
       scales:{
-        x:{
-            min:new Date().setMonth(new Date() - 1  ),
-            max:new Date(),
-        },
+
         y:{
           ticks:{
             min: 1,
@@ -122,7 +120,7 @@
   let current = 0;
   const historyTiles = [...document.getElementsByClassName("history-tile")];
   const sideTiles = [...document.getElementsByClassName("side-tile")];
-  selectHistory(current);
+  if(todayVar) selectHistory(current);
 
   console.log(historyTiles);
   console.log(sideTiles);
