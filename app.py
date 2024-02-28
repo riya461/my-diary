@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from datetime import date
-from analyser import sentimental_analysis
+from analyser import sentimental_analysis, keywords_extractor, summary_extractor, suggession
 
 load_dotenv()
 app = Flask(__name__)
@@ -117,7 +117,10 @@ def index():
             today = False
         else:
             today = True
-        return render_template('index.html', user=name, today = today)
+            
+        # mood tracker for the month 
+        # past 7 days journal entries
+        return render_template('index.html', user=name, today = today, val = val.data)
         
     except Exception as e:
         print(e)
@@ -139,6 +142,7 @@ def diary():
         user = str(json.loads(user_n)["user"]["id"])
         entry = request.form['entry']
         mood = sentimental_analysis(entry)
+        heading = summary_extractor(entry)
         data = supabase.table('users_diary').select('*').match({'id': user}).execute()
         hobby = data.data[0]['hobby_field']
         calm = data.data[0]['calm_field']
@@ -147,10 +151,11 @@ def diary():
         age = data.data[0]['age']
 
         # code to get suggestion
-        suggestion = "You seem to be feeling " + mood + " today. It's important to take care of yourself. Try to do something that makes you happy."
-        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':suggestion}]).execute()
+        suggestion = suggession(entry,age,sex,person,calm,hobby)
         
-        return render_template('diary.html', name= name, today = today, suggestion = suggestion,prompt = True)
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':suggestion, 'heading': heading}]).execute()
+        
+        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = suggestion,prompt = True)
     return render_template('diary.html', name= name, today = today, prompt = False)
 
 
