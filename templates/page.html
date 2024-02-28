@@ -7,29 +7,7 @@
     <title>ZenPad</title>
   </head>
   <body class="diary-main">
-      <div class="page">
-        <div class="punchholes">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-
-        <div class="date">{{ today }}</div>
-        <!-- <h1>Feeling good!</h1> -->
-        <form class="page-form" action="/diary" method="post">
-          <textarea oninput="autogrow(this)" placeholder="How are you feeling today??"></textarea>
-          <button class="page-form-btn" type="submit">
-            <img src="../static/images/go.svg" alt="submt" />
-          </button>
-      </form>
-      </div>
-    </div>
+     {{today}}
   </body>
 
   <script>

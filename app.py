@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from datetime import date
-# from analyser import sentimental_analysis
+from analyser import sentimental_analysis
 
 load_dotenv()
 app = Flask(__name__)
@@ -138,10 +138,18 @@ def diary():
         user_n = user.json()
         user = str(json.loads(user_n)["user"]["id"])
         entry = request.form['entry']
-        # mood = sentimental_analysis(entry)
-        mood = "Fustrated"
-        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry}]).execute()
+        mood = sentimental_analysis(entry)
+        data = supabase.table('users_diary').select('*').match({'id': user}).execute()
+        hobby = data.data[0]['hobby_field']
+        calm = data.data[0]['calm_field']
+        person = data.data[0]['person_field']
+        sex = data.data[0]['sex']
+        age = data.data[0]['age']
+
+        # code to get suggestion
         suggestion = "You seem to be feeling " + mood + " today. It's important to take care of yourself. Try to do something that makes you happy."
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':suggestion}]).execute()
+        
         return render_template('diary.html', name= name, today = today, suggestion = suggestion,prompt = True)
     return render_template('diary.html', name= name, today = today, prompt = False)
 
@@ -150,8 +158,11 @@ def diary():
 @app.route('/page')
 def page():
     today = date.today()
-
-    return render_template('page.html',today = today)
+    user = supabase.auth.get_user()
+    user_n = user.json()
+    user = str(json.loads(user_n)["user"]["id"])
+    
+    return render_template('page.html',today = hobby)
 
 
 if __name__ == '__main__':
