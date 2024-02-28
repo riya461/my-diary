@@ -8,17 +8,30 @@
 <body>
     <h1>User</h1>{{user}}
     <h1>Date</h1>{{today}}
-    {% if today : %}
-    <h1>Todays input</h1>{{val}}
-    <h1>Past few inputs</h1>{{val_past}}
+   
     <h2>Mood tracker</h2>{{mood_tracker}}
+    {% for i in mood_tracker %}
+    <ul>
+        <li>Date <br> {{i.date_entry}}</li>
+        <li>Mood <br> {{i.mood}}</li>
+    </ul>
+    {% endfor %}
+    
+    <h1>Past entries</h1>
     {% for i in val_past %}
-    <li>{{i}}</li>
+    <ul>
+        <li>Date <br> {{i.date_entry}}</li>
+        <li>Heading <br> {{i.heading}}</li>
+        <li>Content <br> {{i.content}}</li>
+    </ul>
     {% endfor %}
 
+    {% if today : %}
+    <h1>Todays input</h1> 
+    <li>Date <br> {{val[0].date_entry}}</li>
+    <li>Heading <br> {{val[0].heading}}</li>
+    <li>Content <br> {{val[0].content}}</li>
 
-    <!--if block html code-->
-    <!-- written the entry -->
     {% else %}
     <!--else block html code-->
     <button><a href="/diary">Write today's entry</a></button>

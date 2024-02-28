@@ -110,11 +110,12 @@ def index():
     date_val = date.today().strftime("%Y-%m-%d")
     print(date_val)
     try:
-        val = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
+        val_id = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
+        val = supabase.table('logs').select('*').match({'id_name': user, 'date_entry': date_val}).execute()
         print(val.data)
         print(len(val.data))
 
-        if int(len(val.data)) == 0:
+        if int(len(val_id.data)) == 0:
             today = False
         else:
             today = True
