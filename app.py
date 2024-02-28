@@ -95,7 +95,9 @@ def about():
 @app.route('/')
 def home():
     return render_template('home.html',user="")
-
+@app.route('/test')
+def test():
+    return render_template('diary.html',user="")
 
 @app.route('/index')
 def index():
@@ -159,11 +161,16 @@ def diary():
         age = data.data[0]['age']
 
         # code to get suggestion
-        suggestion = suggession(entry,age,sex,person,calm,hobby)
+        try:
+            s = suggession(entry,age,sex,person,calm,hobby)
+            s1 = s[3]["recommendations"][0:3]
+        except:
+            return render_template('diary.html', name= name, today = today, prompt = False)
+
         
-        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':suggestion, 'heading': heading}]).execute()
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':s1, 'heading': heading}]).execute()
         
-        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = suggestion,prompt = True)
+        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = s1,prompt = True)
     return render_template('diary.html', name= name, today = today, prompt = False)
 
 

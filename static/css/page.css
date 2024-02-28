@@ -30,6 +30,16 @@
   margin: 0 -35px 40px -35px;
 }
 
+.btn-i {
+  align-items: center;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 8px 22px;
+  border-radius: 25px;
+  color: white;
+  border: 1px solid;
+  cursor: pointer;
+}
 .punchholes>div {
   width: 20px;
   height: 20px;
