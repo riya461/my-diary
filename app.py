@@ -107,8 +107,7 @@ def index():
     name = data.data[0]['name']
 
     print(user)
-    today = True
-    date_val = date.today().strftime("%d-%m-%Y")
+    date_val = date.today().strftime("%Y-%m-%d")
     print(date_val)
     try:
         val = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
@@ -116,12 +115,13 @@ def index():
         print(len(val.data))
         if int(len(val.data)) == 0:
             today = False
+        else:
+            today = True
+        return render_template('index.html', user=name, today = today)
+        
     except Exception as e:
         print(e)
-     
-    
-    
-    return render_template('index.html', user=name, today = today)
+        return render_template('error.html', message=str(e))
 
 
 
@@ -132,7 +132,7 @@ def diary():
     user = str(json.loads(user_n)["user"]["id"])
     data = supabase.table('users_diary').select('name').match({'id': user}).execute()
     name = data.data[0]['name']
-    today = date.today().strftime("%d-%m-%Y")
+    today = date.today().strftime("%Y-%m-%d")
     if request.method == 'POST':
         user = supabase.auth.get_user()
         user_n = user.json()
