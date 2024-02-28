@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from datetime import date
-# from analyser import sentimental_analysis
+from analyser import sentimental_analysis
 
 load_dotenv()
 app = Flask(__name__)
@@ -44,7 +44,7 @@ def signup():
         except Exception as e:
             return render_template('error.html', message=str(e))
 
-    return render_template('signup.html')
+    return render_template('signup.html', user="")
 
 # authentication
 @app.route('/login', methods=["GET", "POST"])
@@ -59,7 +59,7 @@ def login():
             return redirect(url_for('index'))
         except Exception as e:
             return render_template('error.html', message=str(e))
-    return render_template('login.html')
+    return render_template('login.html', user="")
 
 @app.route('/logout')
 def logout():
@@ -89,12 +89,12 @@ def about():
         person_field = request.form['person']
         supabase.table('users_diary').insert([{'name': name,'id': user, 'age': age, 'sex': sex, 'calm_field' : calm_field, 'hobby_field' : hobby_field, 'person_field' : person_field}]).execute()
         return redirect(url_for('index'))
-    return render_template('about.html', user= user)
+    return render_template('about.html', user= "user")
 
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('home.html',user="")
 
 
 @app.route('/index')
@@ -108,7 +108,7 @@ def index():
 
     print(user)
     
-    date_val = date.today().strftime("%Y-%m-%d")
+    date_val = date.today().strftime("%d-%m-%Y")
     print(date_val)
     try:
         val = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
@@ -132,26 +132,27 @@ def diary():
     user = str(json.loads(user_n)["user"]["id"])
     data = supabase.table('users_diary').select('name').match({'id': user}).execute()
     name = data.data[0]['name']
-    today = date.today().strftime("%Y-%m-%d")
+    today = date.today().strftime("%d-%m-%Y")
     if request.method == 'POST':
         user = supabase.auth.get_user()
         user_n = user.json()
         user = str(json.loads(user_n)["user"]["id"])
         entry = request.form['entry']
-        # mood = sentimental_analysis(entry)
-        mood = "Fustrated"
-        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry}]).execute()
+        mood = sentimental_analysis(entry)
+        data = supabase.table('users_diary').select('*').match({'id': user}).execute()
+        hobby = data.data[0]['hobby_field']
+        calm = data.data[0]['calm_field']
+        person = data.data[0]['person_field']
+        sex = data.data[0]['sex']
+        age = data.data[0]['age']
+
+        # code to get suggestion
         suggestion = "You seem to be feeling " + mood + " today. It's important to take care of yourself. Try to do something that makes you happy."
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':suggestion}]).execute()
+        
         return render_template('diary.html', name= name, today = today, suggestion = suggestion,prompt = True)
     return render_template('diary.html', name= name, today = today, prompt = False)
 
-
-
-@app.route('/page')
-def page():
-    today = date.today()
-
-    return render_template('about.html',today = today)
 
 
 if __name__ == '__main__':
