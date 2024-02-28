@@ -1,0 +1,72 @@
+.login-outer {
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.login-form {
+  background: #fff;
+  margin: 45px 20px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  width: min(450px, 70%);
+
+}
+
+.login-form h1 {
+  margin-bottom: 20px;
+}
+
+.email-auth {
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border: none;
+  background-color: rgb(229, 22, 70);
+  color: #fff;
+  cursor: pointer;
+}
+
+.login-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.divider {
+  margin: 20px 0;
+  color: #888;
+}
+
+input[type=email] {
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+}
+
+.forgot-password,
+.sso a {
+  text-decoration: none;
+  color: #000;
+  font-size: .9em;
+}
+
+.login-outer footer {
+  text-align: center;
+  font-size: .8em;
+  color: #888;
+  margin-top: 20px;
+  width: min(550px, 70%);
+}
+
+.login-outer footer a {
+  color: #000;
+  text-decoration: none;
+}
