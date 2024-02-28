@@ -123,7 +123,25 @@ def suggession(user_entry,age,sex,person,calm,hobby):
     
     return list(suggestion_result)
 
+ensitive_keys={
+    "emotional_distress":['Depressed','Hopeless','Worthless','Overwhelmed','Anxious','Panic','Fearful','Isolated','Lonely'],
+    "crisis":['Suicidal thoughts','Self harm','No reason to live','Unbearable pain','Feeling trapped','Wanting to die','End it all'],
+    "negative_perception":['Hate myself','Cant do anything right','Failure','Disappointment','Useless','Invisible'],
+    "personal_struggle":['Conflict','Breakup','Divorce','Abuse','Bullying','Betrayal','Rejection'],
+    "health_symptoms":['Fatigue','Insomnia','appetite', 'tired','Numb','Cant focus'],
+    "bad_behaviour":['Withdrawing','Isolating','Drinking','Using' ,'drugs','Aggression'],
+    "trauma":['Trauma','Assault','Accident','Disaster','Death','Loss']
+}
 
+def check_sensitive_words(user_text, sensitive_keys):
+    user_text_lower = user_text.lower()
+    matched_categories = {}
+
+    for category, keywords in sensitive_keys.items():
+        matched_keywords = [keyword for keyword in keywords if keyword.lower() in user_text_lower]
+        if matched_keywords:
+            matched_categories[category] = matched_keywords
+    return matched_categories
 
 # user_entry='''Today felt like a rollercoaster of emotions. The morning started off on a high note—I received an email confirming my promotion at work, something I’ve been working towards for the past year. I felt a surge of excitement and pride. It was a moment of validation for all the hard work and late nights. I decided to treat myself to a nice breakfast, basking in the glow of my accomplishment.
 #                 But, as the day progressed, a cloud seemed to hover over me. I had a long and draining meeting in the afternoon. Discussions went in circles, and it felt like we were not making any progress. The frustration from the meeting lingered longer than I expected, casting a shadow over my earlier joy.

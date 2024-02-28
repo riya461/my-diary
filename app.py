@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from datetime import date
-from analyser import sentimental_analysis, keywords_extractor, summary_extractor, suggession
+from analyser import sentimental_analysis, check_sensitive_words, summary_extractor, suggession
 
 load_dotenv()
 app = Flask(__name__)
@@ -116,7 +116,7 @@ def index():
         val = supabase.table('logs').select('*').match({'id_name': user, 'date_entry': date_val}).execute()
         print(val.data)
         print(len(val.data))
-
+        
         # mood tracker for the month 
         month = date.today().strftime("%Y-%m")
         month = month + '-01'
@@ -160,7 +160,10 @@ def diary():
         sex = data.data[0]['sex']
         age = data.data[0]['age']
         date_val = date.today().strftime("%Y-%m-%d")
-
+        try:
+            trigger = check_sensitive_words(entry)
+        except:
+            trigger = 'NULL'
 
         # code to get suggestion
         try:
@@ -170,9 +173,24 @@ def diary():
             return render_template('diary.html', name= name, today = today, prompt = False)
 
         
-        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':s1, 'heading': heading, 'date_entry' : date_val}]).execute()
-        
-        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = s1,prompt = True)
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':s1, 'heading': heading, 'date_entry' : date_val, 'triggers': trigger }]).execute()
+        if  trigger == 'emotional_distress':
+            value = "Hey, it sounds like you're going through a really tough time right now, feeling overwhelmed and maybe a bit lost. It's okay to feel this way, and I'm here for you. Sometimes, talking about these feelings can help. Would you like to share more about what's been going on? Remember, it's okay to seek professional help too; there's strength in taking that step"
+        elif trigger == 'crisis':
+            value = "I'm truly concerned to hear you're feeling so cornered and pained. It's incredibly brave of you to express these feelings, and I want you to know that you're not alone in this. Your life is precious, and there are people who can help you through this moment. Let's find someone you can talk to, a professional who can provide the support you deserve. You're not alone in this, and you don't have to face this alone."
+        elif trigger == 'negative_perception':
+            value = "Reading your words, it hurts to see you being so hard on yourself. Everyone has moments of doubt, but it doesn't define your worth or your capabilities. You're so much more than these harsh thoughts. Let's talk about the things you've achieved and the challenges you've overcome. You've got a friend in me, and I believe in you." 
+        elif trigger == 'personal_struggle':
+            value = "It sounds like you're facing some really challenging times with people around you. Relationships can be tough, and feeling hurt or betrayed can weigh heavily on you. Remember, it's okay to set boundaries and prioritize your well-being. If you need someone to vent to or need advice on handling these situations, I'm here. You deserve respect and understanding from those around you."
+        elif trigger == 'bad_behaviour':
+            value = "I've noticed you've been pulling away and not seeming like yourself lately. It's completely okay to take time for yourself, but I'm here if you need an ear or want to hang out, no pressure. If things are feeling out of control with drinking or other behaviors, there's no shame in reaching out for help. What do you say we chat or do something low-key together?"
+        elif trigger == 'health_symptoms':
+            value = "Hearing that you're not feeling well physically and emotionally worries me. These symptoms can really affect your daily life. Have you had a chance to speak with a healthcare provider about how you're feeling? Sometimes, underlying health issues can contribute to how we feel mentally. Let's find a time to relax together, maybe a walk or a quiet evening, whatever feels right for you."
+        elif trigger == 'trauma':
+            value = "It's clear that you've been through some really tough times, and I'm so sorry to hear that. It's okay to feel the way you do, and it's okay to seek help. You don't have to carry this weight alone. There are professionals who can help you work through these feelings and experiences. You're not alone in this, and I'm here for you."
+        else:
+            value = "See you tomorrow : )"
+        return render_template('diary.html', name= name, today = today, heading=heading, suggestion = s1,prompt = True, trigger_section = value)
     return render_template('diary.html', name= name, today = today, prompt = False)
 
 
