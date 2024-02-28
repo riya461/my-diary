@@ -107,19 +107,19 @@ def index():
     name = data.data[0]['name']
 
     print(user)
-    
+    today = True
     date_val = date.today().strftime("%d-%m-%Y")
     print(date_val)
     try:
         val = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
         print(val.data)
+        print(len(val.data))
+        if int(len(val.data)) == 0:
+            today = False
     except Exception as e:
         print(e)
-    print(len(val.data))
-    if int(len(val.data)) == 0:
-        today = False 
-    else:
-        today = True
+     
+    
     
     return render_template('index.html', user=name, today = today)
 
