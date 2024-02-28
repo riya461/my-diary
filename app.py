@@ -151,7 +151,7 @@ def diary():
 def page():
     today = date.today()
 
-    return render_template('page.html',today = today)
+    return render_template('diary.html',today = today)
 
 
 if __name__ == '__main__':
