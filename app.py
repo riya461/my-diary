@@ -4,7 +4,7 @@ import json
 from dotenv import load_dotenv
 from supabase import create_client, Client
 from datetime import date
-
+from analyser import sentimental_analysis
 
 load_dotenv()
 app = Flask(__name__)
@@ -107,12 +107,16 @@ def index():
     name = data.data[0]['name']
 
     print(user)
-    date_val = date.today()
+    
+    date_val = date.today().strftime("%Y-%m-%d")
+    print(date_val)
     try:
         val = supabase.table('logs').select('id').match({'id_name': user, 'date_entry': date_val}).execute()
+        print(val.data)
     except Exception as e:
         print(e)
-    if len(val.data) == 0:
+    print(len(val.data))
+    if int(len(val.data)) == 0:
         today = False 
     else:
         today = True
@@ -136,13 +140,12 @@ def diary():
         user_n = user.json()
         user = str(json.loads(user_n)["user"]["id"])
         entry = request.form['entry']
-        supabase.table('logs').insert([{'id_name': user,  'content': entry}]).execute()
-        return redirect(url_for('analyse'))
-    return render_template('diary.html', name= name, today = today)
+        mood = sentimental_analysis(entry)
+        supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry}]).execute()
+        suggestion = "You seem to be feeling " + mood + " today. It's important to take care of yourself. Try to do something that makes you happy."
+        return render_template('diary.html', name= name, today = today, suggestion = suggestion,prompt = True)
+    return render_template('diary.html', name= name, today = today, prompt = False)
 
-
-@app.route('/analyse')
-def analyse():
-    return render_template('analyse.html')  
+ 
 if __name__ == '__main__':
     app.run(debug=True)

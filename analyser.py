@@ -19,13 +19,27 @@ def sentimental_analysis(user_entry):
             input_variables=['user_entry'],
             template=''' Analyze the following text and determine the overall sentiment. 
             Provide a sentiment classification from the ones below:
+            1. Happy 
+            2. Sad
+            3. Productive
+            4. Frustrated
+            5. Lonely
             . 
+            Example 1: User entry: "I finally finished the marathon I've been training for months. It was challenging, but crossing the finish line felt amazing."
+            Productive
+            
+            Example 2: User entry: "Spent the afternoon baking cookies with my kids. We made a huge mess, but the fun and laughter were worth it."
+            Happy
+            
+            Example 3: User entry: "Had a difficult day at work. Felt overwhelmed by the projects piling up and the looming deadlines."
+            Frustrated
+            Please provide the sentiment classification ONLY.
             Text: {user_entry}"'''
         )
     sentiment_chain=LLMChain(llm=openai,prompt=sentiment_template1)
     sentiment_category=sentiment_chain.invoke(user_entry)
     
-    return sentiment_category
+    return sentiment_category['text']
 
 def keywords_extractor(user_entry):
     keywords_template=PromptTemplate(
@@ -69,4 +83,4 @@ user_entry='''Today felt like a rollercoaster of emotions. The morning started o
 
 
 
-print(summary_extractor(user_entry))
+print(sentimental_analysis(user_entry))
