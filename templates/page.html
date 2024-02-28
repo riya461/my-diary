@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/css/page.css" />
+    <title>ZenPad</title>
+  </head>
+  <body class="diary-main">
+      <div class="page">
+        <div class="punchholes">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <div class="date">24th March 2024</div>
+        <h1>Feeling good!</h1>
+        <textarea oninput="autogrow(this)" ></textarea>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    const autogrow = (elem) => {
+      elem.style.height = elem.scrollHeight + "px";
+    }
+  </script>
+</html>
