@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@100;400;500;700&family=Quicksand:wght@300;400;500;700&display=swap');
 @import url("./home.css");
+@import url("./login.css");
 
 body {
   font-family: "Poppins", sans-serif;
@@ -14,7 +15,8 @@ body {
   margin: 0 25px;
 }
 
-.login-btn {
+.login-btn,
+.signup-btn {
   font-weight: 500;
   font-size: 16px;
   padding: 8px 22px;
@@ -24,6 +26,11 @@ body {
   cursor: pointer;
 }
 
+.signup-btn {
+  background-color: black;
+  color: white;
+  margin-left: 12px;
+}
 
 .zenpad-logo>img {
   width: 20px;
@@ -33,4 +40,9 @@ body {
 .font-playfair {
   font-family: "Playfair Display", serif;
   font-weight: 700;
+}
+
+a {
+  color: black;
+  text-decoration: none;
 }

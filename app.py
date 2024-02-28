@@ -146,6 +146,14 @@ def diary():
         return render_template('diary.html', name= name, today = today, suggestion = suggestion,prompt = True)
     return render_template('diary.html', name= name, today = today, prompt = False)
 
- 
+
+
+@app.route('/page')
+def page():
+    today = date.today()
+
+    return render_template('page.html',today = today)
+
+
 if __name__ == '__main__':
     app.run(debug=True)

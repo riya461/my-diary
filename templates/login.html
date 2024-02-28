@@ -1,15 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% extends "base.html" %} {% block content%}
+<div class="login-outer">
+  <section class="login-form">
+    <h1>Log in</h1>
     <form action="/login" method="post">
-        <input type="email" name="email" id="email" placeholder="Email">
-        <input type="password" name="password" id="password" placeholder="password">
-        <button type="submit">Login</button>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter your email address..."
+      />
+      <input
+        type="password"
+        id="password"
+        name="password"
+        placeholder="Password"
+      />
+      <button type="submit" class="email-auth">Continue with email</button>
     </form>
-</body>
-</html>
+    <div class="forgot-password"><a href="#">Forgot password?</a></div>
+    <div class="login-signup">
+      Dont have an account? <a href="/signup">Sign up Today</a>
+    </div>
+  </section>
+  <footer>
+    <p>
+      By clicking "Continue with Email" above, you acknowledge that you have
+      read and understood, and agree to ZapPad's
+      <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>.
+    </p>
+  </footer>
+</div>
+
+{% endblock %}
