@@ -23,6 +23,10 @@ We value your thoughts, our AI insights and analytics reflect how your were feel
 
 
 
+https://github.com/riya461/my-diary/assets/90635335/8042b2e9-0cc6-4939-aced-ba0da2d31180
+
+
+
 ## Features
 
 - Simple interface 
