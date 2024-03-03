@@ -164,15 +164,16 @@ def diary():
         date_val = date.today().strftime("%Y-%m-%d")
         
         trigger = list(check_sensitive_words(entry).keys())[0]
-        
+        print(trigger)
 
         # code to get suggestion
         try:
             s = suggession(entry,age,sex,person,calm,hobby)
             s1 = s[3]["recommendations"][0:3]
+            print(s1)
         except:
             return render_template('diary.html', name= name, today = today, prompt = False)
-
+        print(mood)
         
         supabase.table('logs').insert([{'id_name': user,'mood': mood,  'content': entry, 'suggestion':s1, 'heading': heading, 'date_entry' : date_val, 'triggers': trigger }]).execute()
         if  trigger == 'emotional_distress':
@@ -197,4 +198,4 @@ def diary():
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

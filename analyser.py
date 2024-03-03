@@ -53,7 +53,7 @@ def summary_extractor(user_entry):
         Title:
         '''
         )
-    summary_chain=LLMChain(llm=openai,prompt=summary_template)
+    summary_chain=LLMChain(llm=gemini,prompt=summary_template)
     summary_text=summary_chain.invoke(user_entry)
     return summary_text['text']
 
